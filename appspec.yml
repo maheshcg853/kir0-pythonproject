@@ -4,6 +4,10 @@ files:
   - source: /
     destination: /home/ec2-user/flask-app
 hooks:
+  ApplicationStop:
+    - location: scripts/stop_application.sh
+      timeout: 300
+      runas: root
   BeforeInstall:
     - location: scripts/before_install.sh
       timeout: 300
@@ -14,9 +18,5 @@ hooks:
       runas: root
   ApplicationStart:
     - location: scripts/start_application.sh
-      timeout: 300
-      runas: root
-  ApplicationStop:
-    - location: scripts/stop_application.sh
       timeout: 300
       runas: root
