@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from datetime import datetime, timezone
 import os
 import logging
 from typing import Tuple, Dict, Any
@@ -47,6 +48,14 @@ def greet(name: str) -> Tuple[Dict[str, Any], int]:
     except Exception as e:
         logger.error(f"Error in greet endpoint: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
+
+@app.route('/time')
+def time() -> Tuple[Dict[str, str], int]:
+    """Return the current server time in ISO 8601 format."""
+    current_time = datetime.now(timezone.utc).isoformat()
+    logger.info("Time endpoint accessed")
+    return jsonify({"current_time": current_time}), 200
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
